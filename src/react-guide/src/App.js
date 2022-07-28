@@ -1,6 +1,7 @@
-import Expenses from "./components/Expenses";
+import React from "react";
+import Expenses from "./components/Expenses/Expenses";
 
-function App() {
+const App = () => {
   const expenses = [
     {
       id: "e0",
@@ -27,12 +28,30 @@ function App() {
       date: new Date(2020, 11, 21),
     },
   ];
+
+  /*The following method is the old one by using the React import.
+  Also this is the under the hood code which kinda is the result of the
+  the JSX code we use*/
+
+  // return React.createElement(
+  //   "div",
+  //   {},
+  //   React.createElement(
+  //     "h2",
+  //     {},
+  //     "Let's get started",
+  //     React.createElement(Expenses, { expenses: expenses })
+  //   )
+  // );
+
+  //The following is the new JSX method and is more convenient
+
   return (
     <div>
       <h2>Let's get started!</h2>
       <Expenses expenses={expenses} />
     </div>
   );
-}
+};
 
 export default App;
