@@ -30,6 +30,11 @@ const App = () => {
     },
   ];
 
+  const addExpenseHandler = (expense) => {
+    console.log("From app.js");
+    console.log(expense);
+  };
+
   /*The following method is the old one by using the React import.
   Also this is the under the hood code which kinda is the result of the
   the JSX code we use*/
@@ -49,7 +54,7 @@ const App = () => {
 
   return (
     <div>
-      <NewExpense />
+      <NewExpense onAddExpense={addExpenseHandler} />
       <Expenses expenses={expenses} />
     </div>
   );
