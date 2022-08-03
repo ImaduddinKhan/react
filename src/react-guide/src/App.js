@@ -25,7 +25,7 @@ const INITIAL_EXPENSES = [
     id: "e3",
     title: "Eggs",
     amount: 120,
-    date: new Date(2020, 11, 21),
+    date: new Date(2020, 3, 21),
   },
 ];
 
