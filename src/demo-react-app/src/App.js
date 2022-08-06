@@ -1,11 +1,11 @@
 import React from 'react';
-import AddUsers from './components/Users/AddUsers';
+import AddUser from './components/Users/AddUser';
 import './App.css';
 
 function App() {
   return (
     <div >
-      <AddUsers />
+      <AddUser />
     </div>
   );
 }
