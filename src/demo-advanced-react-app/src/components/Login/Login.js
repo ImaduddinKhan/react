@@ -43,31 +43,41 @@ const Login = (props) => {
     isValid: null,
   });
 
-  useEffect(
-    () => {
-      console.log("EFFECT RUNNING"); // this will run only when this comp is being run
+  // useEffect(
+  //   () => {
+  //     console.log("EFFECT RUNNING"); // this will run only when this comp is being run
 
-      return () => {
-        console.log("CLEANUP EFFECT 00"); //this is when the comp is destroyed or closed
-      };
-    },
-    [
-      /* here if any dependencies which changes with any keystroke then the EFFECT RUNNING will render again and aging */
-    ]
-  );
+  //     return () => {
+  //       console.log("CLEANUP EFFECT 00"); //this is when the comp is destroyed or closed
+  //     };
+  //   },
+  //   [
+  //     /* here if any dependencies which changes with any keystroke then the EFFECT RUNNING will render again and aging */
+  //   ]
+  // );
 
-  // useEffect(() => {
-  //   const identifier = setTimeout(() => {
-  //     console.log("checking form validity");
-  //     setFormIsValid(
-  //       emailState.includes("@") && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-  //   return () => {
-  //     console.log("CLEANUP");
-  //     clearTimeout(identifier);
-  //   }; //this is called cleanup function
-  // }, [emailState, enteredPassword]);
+  const { isValid: eamilIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+  /**The above method/aproach is NOT that 
+   * we use destructuring but that we pass specific properties 
+   * instead of the entire object as a dependency. 
+   * We could also write this code and it would work in the same way.
+   
+    useEffect(() => {
+     code that only uses someProperty ...
+    }, [someObject.someProperty]);
+  */
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      console.log("checking form validity");
+      setFormIsValid(eamilIsValid && passwordIsValid);
+    }, 500);
+    return () => {
+      console.log("CLEANUP");
+      clearTimeout(identifier);
+    }; //this is called cleanup function
+  }, [eamilIsValid, passwordIsValid]);
 
   const emailChangeHandler = (event) => {
     // setEnteredEmail(event.target.value);
@@ -77,7 +87,7 @@ const Login = (props) => {
   const passwordChangeHandler = (event) => {
     // setEnteredPassword(event.target.value);
     dispatchPassword({ type: "USER_PASSWORD", val: event.target.value });
-    setFormIsValid(passwordState.isValid && emailState.isValid);
+    // setFormIsValid(passwordState.isValid && emailState.isValid);
   };
 
   const validateEmailHandler = () => {
