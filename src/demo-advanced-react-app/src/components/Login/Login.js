@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../store/auth-context";
+import Input from "../UI/Input/Input";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_EMAIL") {
@@ -43,31 +45,44 @@ const Login = (props) => {
     isValid: null,
   });
 
-  useEffect(
-    () => {
-      console.log("EFFECT RUNNING"); // this will run only when this comp is being run
+  // useEffect(
+  //   () => {
+  //     console.log("EFFECT RUNNING"); // this will run only when this comp is being run
 
-      return () => {
-        console.log("CLEANUP EFFECT 00"); //this is when the comp is destroyed or closed
-      };
-    },
-    [
-      /* here if any dependencies which changes with any keystroke then the EFFECT RUNNING will render again and aging */
-    ]
-  );
+  //     return () => {
+  //       console.log("CLEANUP EFFECT 00"); //this is when the comp is destroyed or closed
+  //     };
+  //   },
+  //   [
+  //     /* here if any dependencies which changes with any keystroke then the EFFECT RUNNING will render again and aging */
+  //   ]
+  // );
 
-  // useEffect(() => {
-  //   const identifier = setTimeout(() => {
-  //     console.log("checking form validity");
-  //     setFormIsValid(
-  //       emailState.includes("@") && enteredPassword.trim().length > 6
-  //     );
-  //   }, 500);
-  //   return () => {
-  //     console.log("CLEANUP");
-  //     clearTimeout(identifier);
-  //   }; //this is called cleanup function
-  // }, [emailState, enteredPassword]);
+  const { isValid: eamilIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+  /**The above method/aproach is NOT that 
+   * we use destructuring but that we pass specific properties 
+   * instead of the entire object as a dependency. 
+   * We could also write this code and it would work in the same way.
+   
+    useEffect(() => {
+     code that only uses someProperty ...
+    }, [someObject.someProperty]);
+  */
+
+  useEffect(() => {
+    const identifier = setTimeout(() => {
+      //setTimeout is the browser API
+      console.log("checking form validity");
+      setFormIsValid(eamilIsValid && passwordIsValid);
+    }, 500);
+    return () => {
+      console.log("CLEANUP");
+      clearTimeout(identifier);
+    }; //this is called cleanup function
+  }, [eamilIsValid, passwordIsValid]);
+
+  const authCtx = useContext(AuthContext);
 
   const emailChangeHandler = (event) => {
     // setEnteredEmail(event.target.value);
@@ -77,7 +92,7 @@ const Login = (props) => {
   const passwordChangeHandler = (event) => {
     // setEnteredPassword(event.target.value);
     dispatchPassword({ type: "USER_PASSWORD", val: event.target.value });
-    setFormIsValid(passwordState.isValid && emailState.isValid);
+    // setFormIsValid(passwordState.isValid && emailState.isValid);
   };
 
   const validateEmailHandler = () => {
@@ -92,40 +107,30 @@ const Login = (props) => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${classes.control} ${
-            emailState.isValid === false ? classes.invalid : ""
-          }`}
-        >
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
-        <div
-          className={`${classes.control} ${
-            passwordState.isValid === false ? classes.invalid : ""
-          }`}
-        >
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={passwordState.value}
-            onChange={passwordChangeHandler}
-            onBlur={validatePasswordHandler}
-          />
-        </div>
+        <Input
+          id="email"
+          type="email"
+          label="E-Mail"
+          isValid={eamilIsValid}
+          value={emailState.value}
+          onChange={emailChangeHandler}
+          onBlur={validateEmailHandler}
+        />
+        <Input
+          id="password"
+          type="password"
+          label="Password"
+          isValid={passwordIsValid}
+          value={passwordState.value}
+          onChange={passwordChangeHandler}
+          onBlur={validatePasswordHandler}
+        />
         <div className={classes.actions}>
           <Button type="submit" className={classes.btn} disabled={!formIsValid}>
             Login
