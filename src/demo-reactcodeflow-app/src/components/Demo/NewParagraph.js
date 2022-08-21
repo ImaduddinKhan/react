@@ -1,5 +1,4 @@
 import React from "react";
-import Output from "./Output";
 
 const NewParagraph = (props) => {
   console.log("New Paragraph running");
