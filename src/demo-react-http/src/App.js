@@ -5,6 +5,7 @@ import "./App.css";
 import AddMovie from "./components/AddMovie";
 
 function App() {
+  console.log(process.env.REACT_APP_API_KEY);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -98,7 +99,7 @@ function App() {
         <AddMovie onAddMovie={addMovieHandler} />
       </section>
       <section>
-        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
+        <button onClick={fetchMoviesHandler}>Get Movies</button>
       </section>
       <section>{content}</section>
     </React.Fragment>
