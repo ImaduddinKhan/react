@@ -1,24 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+
+import NewTask from "./components/NewTask/NewTask";
+import Tasks from "./components/Tasks/Tasks";
+import "./App.css";
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchTasks = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(process.env.REACT_APP_API_KEY);
+
+      if (!response.ok) {
+        throw new Error("Request Failed!");
+      }
+      const data = await response.json();
+
+      const getTasks = [];
+
+      for (const taskKey in data) {
+        getTasks.push({ id: taskKey, text: data[taskKey].text });
+      }
+      setTasks(getTasks);
+    } catch (err) {
+      setError(err.message || "something went wrong");
+    }
+    setIsLoading(false);
+  };
+
+  const addTaskHandler = (task) => {
+    setTasks((prevTasks) => prevTasks.concat(task));
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <NewTask onAddTask={addTaskHandler} />
+      <Tasks
+        items={tasks}
+        loading={isLoading}
+        error={error}
+        onFetch={fetchTasks}
+      />
+    </React.Fragment>
   );
 }
 
