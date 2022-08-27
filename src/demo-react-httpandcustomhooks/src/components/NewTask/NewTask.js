@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
-import Section from "../UI/Section";
 import TaskForm from "./TaskForm";
 
 const NewTask = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const enterTaskHandler = async (enteredTaskText) => {
-    setLoading(true);
+    setIsLoading(true);
     setError(null);
     try {
       const response = await fetch(process.env.REACT_APP_API_KEY, {
@@ -33,12 +32,13 @@ const NewTask = (props) => {
     } catch (error) {
       setError(error.message || "Something went wrong");
     }
+    setIsLoading(false);
   };
   return (
-    <Section>
-      <TaskForm onEnterTask={enterTaskHandler} loading={loading} />
+    <div>
+      <TaskForm onEnterTask={enterTaskHandler} loading={isloading} />
       {error && <p>{error}</p>}
-    </Section>
+    </div>
   );
 };
 

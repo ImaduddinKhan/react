@@ -1,44 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import NewTask from "./components/NewTask/NewTask";
 import Tasks from "./components/Tasks/Tasks";
+import useHttp from "./hooks/use-http";
 import "./App.css";
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const fetchTasks = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(process.env.REACT_APP_API_KEY);
+  const transformTask = useCallback((dataObj) => {
+    const getTasks = [];
 
-      if (!response.ok) {
-        throw new Error("Request Failed!");
-      }
-      const data = await response.json();
-
-      const getTasks = [];
-
-      for (const taskKey in data) {
-        getTasks.push({ id: taskKey, text: data[taskKey].text });
-      }
-      setTasks(getTasks);
-    } catch (err) {
-      setError(err.message || "something went wrong");
+    for (const taskKey in dataObj) {
+      getTasks.push({ id: taskKey, text: dataObj[taskKey].text });
     }
-    setIsLoading(false);
-  };
+    setTasks(getTasks);
+  }, []);
+
+  const { isLoading, error, sendRequest: fetchTasks } = useHttp(transformTask);
+
+  useEffect(() => {
+    fetchTasks({ url: process.env.REACT_APP_API_KEY });
+  }, [fetchTasks]);
 
   const addTaskHandler = (task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
   };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
   return (
     <React.Fragment>
