@@ -1,12 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const SimpleInput = (props) => {
   const [enteredName, setEnteredName] = useState("");
   const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+  //   const [formIsValid, setFormIsValid] = useState(false);
 
   const enteredNameIsValid = enteredName.trim() !== "";
   const nameInputIsInvalid = !enteredNameIsValid && enteredNameTouched;
 
+  //   useEffect(() => {
+  //     if (enteredNameIsValid) {
+  //       setFormIsValid(true);
+  //     } else {
+  //       setFormIsValid(false);
+  //     }
+  //     return () => {
+  //       setFormIsValid();
+  //       console.log("now");
+  //     };
+  //   }, [enteredNameIsValid]);
+
+  // instead of using useEffect we can use the following slimmer code
+
+  // start
+  let formIsValid = false;
+
+  if (enteredNameIsValid) {
+    formIsValid = true;
+  }
+  // end
   const nameInputChangeHandler = (event) => {
     setEnteredName(event.target.value);
   };
@@ -53,7 +75,7 @@ const SimpleInput = (props) => {
         <p className="error-text">Enter valid non-empty name.</p>
       )}
       <div className="form-actions">
-        <button>Submit</button>
+        <button disabled={!formIsValid}>Submit</button>
       </div>
     </form>
   );
