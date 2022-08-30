@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import useInput from "../hooks/use-input";
 
@@ -46,7 +46,7 @@ const SimpleInput = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (nameInputHasError && !enteredEmailIsValid) {
+    if (!enteredNameIsValid && !enteredEmailIsValid) {
       return;
     }
 
