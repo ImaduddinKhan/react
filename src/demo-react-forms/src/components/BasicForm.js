@@ -38,10 +38,10 @@ const BasicForm = () => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (!formIsValid) {
+    if (formIsValid) {
       return;
     }
-
+    // test
     console.log("Done");
     console.log(firstNameValue, lastNameValue, emailValue);
 
