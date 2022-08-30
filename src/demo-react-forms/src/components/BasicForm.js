@@ -41,7 +41,7 @@ const BasicForm = () => {
     if (formIsValid) {
       return;
     }
-
+    // test
     console.log("Done");
     console.log(firstNameValue, lastNameValue, emailValue);
 
