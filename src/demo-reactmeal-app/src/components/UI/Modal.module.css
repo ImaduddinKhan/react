@@ -9,8 +9,8 @@
 }
 
 .modal {
-    position: fixed;
-    top: 20vh;
+    position: absolute;
+    top: 15vh;
     left: 5%;
     width: 90%;
     background-color: white;

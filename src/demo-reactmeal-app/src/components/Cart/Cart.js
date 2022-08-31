@@ -1,21 +1,48 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import Modal from "../UI/Modal";
 import classes from "./Cart.module.css";
 import CartContext from "../../store/cart-context";
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
 
+  const [isCheckout, setIsCheckout] = useState(false);
+
   const totalAmount = `${cartCtx.totalAmount.toFixed(2)}Rs`;
-  const hasAnyItems = cartCtx.items.length > 0;
+  const hasAnyItem = cartCtx.items.length > 0;
 
   const removeCartItemHandler = (id) => {
     cartCtx.removeItem(id);
   };
+
   const addCartItemHandler = (item) => {
     cartCtx.addItem({ ...item, amount: 1 });
+  };
+
+  const orderHandler = () => {
+    if (!isCheckout) {
+      setIsCheckout(true);
+    }
+  };
+
+  const hideOrderActions = (
+    <div className={classes.actions}>
+      <button className={classes["button--alt"]} onClick={props.onClose}>
+        Close
+      </button>
+      {hasAnyItem && (
+        <button className={classes.button} onClick={orderHandler}>
+          Order
+        </button>
+      )}
+    </div>
+  );
+
+  const checkoutHandler = (userData) => {
+    fetch(process.env.REACT_APP_API_KEY);
   };
 
   const cartItems = (
@@ -34,18 +61,16 @@ const Cart = (props) => {
   );
 
   return (
-    <Modal onClose={props.onHideCart}>
+    <Modal onBackdropClose={props.onClose}>
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      <div className={classes.actions}>
-        <button className={classes["button--alt"]} onClick={props.onHideCart}>
-          Close
-        </button>
-        {hasAnyItems && <button className={classes.button}>Order</button>}
-      </div>
+      {isCheckout && (
+        <Checkout onCancel={props.onClose} onCheckout={checkoutHandler} />
+      )}
+      {!isCheckout && hideOrderActions}
     </Modal>
   );
 };
