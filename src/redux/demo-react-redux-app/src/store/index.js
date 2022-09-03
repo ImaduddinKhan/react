@@ -15,15 +15,15 @@ const counterReducer = (state = { counter: 0 }, action) => {
 };
 
 const store = createStore(counterReducer);
-console.log(store.getState());
+// console.log(store.getState());
 
-const counterSubscriber = () => {
-  const latestState = store.getState();
-  console.log(latestState);
-};
-store.subscribe(counterSubscriber);
+// const counterSubscriber = () => {
+//   const latestState = store.getState();
+//   console.log(latestState);
+// };
+// store.subscribe(counterSubscriber);
 
-store.dispatch({ type: "increment" });
-store.dispatch({ type: "decrement" });
+// store.dispatch({ type: "increment" });
+// store.dispatch({ type: "decrement" });
 
 export default store;
