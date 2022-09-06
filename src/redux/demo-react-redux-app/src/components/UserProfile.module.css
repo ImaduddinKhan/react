@@ -1,0 +1,9 @@
+.profile {
+    margin: 5rem auto;
+    text-align: center;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.2);
+    width: 40rem;
+    background-color: #f4f0fa;
+}
