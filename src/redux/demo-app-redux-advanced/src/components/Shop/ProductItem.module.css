@@ -1,9 +1,13 @@
+.productitem {
+    background-color: white;
+}
+
 .productitem h3 {
     margin: 0.5rem 0;
     font-size: 1.25rem;
 }
 
-.item header {
+.productitem header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -17,7 +21,7 @@
     font-size: 1.5rem;
 }
 
-.item p {
+.productitem p {
     color: #3a3a3a;
 }
 
