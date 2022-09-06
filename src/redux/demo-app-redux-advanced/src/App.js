@@ -1,4 +1,4 @@
-import React, { useSelector } from "react";
+import React, { useSelector } from "react-redux";
 
 import "./App.css";
 import Cart from "./components/Cart/Cart";
