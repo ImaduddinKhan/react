@@ -7,12 +7,12 @@ import HighlightedQuote from "../components/quotes/HighlightedQuote";
 const DUMMY_QUOTES = [
   {
     id: "q1",
-    author: "Test",
+    author: "Author",
     text: "Learning is so cool..",
   },
   {
     id: "q2",
-    author: "Test 2",
+    author: "Author 2",
     text: "Learning 2 is so cool..",
   },
 ];
