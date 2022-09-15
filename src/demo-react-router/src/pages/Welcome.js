@@ -1,12 +1,12 @@
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const Welcome = () => {
   return (
     <div>
       <h1>The Welcome Page</h1>
-      <Route path="/welcome/new-user">
-        <p>New User Page</p>
-      </Route>
+      <Routes>
+        <Route path="new-user" element={<p>New User Page</p>} />
+      </Routes>
     </div>
   );
 };

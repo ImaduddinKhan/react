@@ -8,12 +8,18 @@ const MainHeader = () => {
       <nav>
         <ul>
           <li>
-            <NavLink to="/welcome" activeClassName={classes.active}>
+            <NavLink
+              className={(navData) => (navData.isActive ? classes.active : "")}
+              to="/welcome"
+            >
               Welcome
             </NavLink>
           </li>
           <li>
-            <NavLink to="/products" activeClassName={classes.active}>
+            <NavLink
+              className={(navData) => (navData.isActive ? classes.active : "")}
+              to="/products"
+            >
               Products
             </NavLink>
           </li>
