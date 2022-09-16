@@ -1,7 +1,11 @@
 import StartingPage from "../components/StartingPage/StartingPageContent";
 
 const HomePage = (props) => {
-  return <StartingPage />;
+  return (
+    <div>
+      <StartingPage />;
+    </div>
+  );
 };
 
 export default HomePage;
