@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import styles from "../styles/Home.module.css";
 import MeetupList from "../components/meetups/MeetupList";
 
 const DUMMY_MEETUP_LIST = [

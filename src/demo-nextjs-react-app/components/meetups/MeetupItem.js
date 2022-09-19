@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Card from "../ui/card";
 import classes from "./MeetupItem.module.css";
 

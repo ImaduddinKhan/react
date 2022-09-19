@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-import Card from "../ui/Card";
+import Card from "../ui/card";
 import classes from "./NewMeetupForm.module.css";
 
 function NewMeetupForm(props) {
