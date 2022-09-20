@@ -10,6 +10,7 @@ const AuthForm = (props) => {
   const passwordInputRef = useRef();
 
   const history = useHistory();
+  console.log("test");
 
   const [isLogin, setIsLogin] = useState(true);
   const [isLoding, setIsLoding] = useState(false);
