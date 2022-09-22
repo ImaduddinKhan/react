@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import MeetupList from "../components/meetups/MeetupList";
 
 const DUMMY_MEETUP_LIST = [
@@ -21,9 +21,16 @@ const DUMMY_MEETUP_LIST = [
 ];
 
 function HomePage() {
+  const [loadedMeetups, setLoadedMeetups] = useState([]);
+
+  useEffect(() => {
+    // send http request and fetch data
+
+    setLoadedMeetups(DUMMY_MEETUP_LIST);
+  }, []);
   return (
     <Fragment>
-      <MeetupList meetups={DUMMY_MEETUP_LIST} />
+      <MeetupList meetups={loadedMeetups} />
     </Fragment>
   );
 }
