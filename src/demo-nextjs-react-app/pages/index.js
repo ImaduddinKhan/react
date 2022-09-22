@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import MeetupList from "../components/meetups/MeetupList";
 
 const DUMMY_MEETUP_LIST = [
@@ -20,18 +20,37 @@ const DUMMY_MEETUP_LIST = [
   },
 ];
 
-function HomePage() {
-  const [loadedMeetups, setLoadedMeetups] = useState([]);
-
-  useEffect(() => {
-    // send http request and fetch data
-
-    setLoadedMeetups(DUMMY_MEETUP_LIST);
-  }, []);
+function HomePage(props) {
   return (
     <Fragment>
-      <MeetupList meetups={loadedMeetups} />
+      <MeetupList meetups={props.meetups} />
     </Fragment>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const req = context.req;
+  const res = context.res;
+
+  //fetch data from api
+
+  return {
+    props: {
+      meetups: DUMMY_MEETUP_LIST,
+    },
+  };
+};
+
+// export const getStaticProps = async () => {
+//   //any code here we want to be rendered on server,
+//   //and will never exec on the client side
+
+//   return {
+//     props: {
+//       meetups: DUMMY_MEETUP_LIST,
+//     },
+//     revalidate: 5,
+//   };
+// };
+
 export default HomePage;
