@@ -1,56 +1,64 @@
+import { MongoClient } from "mongodb";
+import Head from "next/head";
+
 import { Fragment } from "react";
 import MeetupList from "../components/meetups/MeetupList";
-
-const DUMMY_MEETUP_LIST = [
-  {
-    id: "m1",
-    title: "A Meetup",
-    image:
-      "https://images.unsplash.com/photo-1598908314732-07113901949e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    address: "Some address Lane 3, House 338",
-    description: "This is my first meetup",
-  },
-  {
-    id: "m2",
-    title: "An another Meetup",
-    image:
-      "https://images.unsplash.com/photo-1598908314732-07113901949e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
-    address: "Some address Lane 3, House 338-A",
-    description: "This is my second meetup",
-  },
-];
 
 function HomePage(props) {
   return (
     <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Add your own meetups and enjoy our app"
+        />
+      </Head>
       <MeetupList meetups={props.meetups} />
     </Fragment>
   );
 }
 
-export const getServerSideProps = async (context) => {
-  const req = context.req;
-  const res = context.res;
+// export const getServerSideProps = async (context) => {
+//   const req = context.req;
+//   const res = context.res;
 
-  //fetch data from api
-
-  return {
-    props: {
-      meetups: DUMMY_MEETUP_LIST,
-    },
-  };
-};
-
-// export const getStaticProps = async () => {
-//   //any code here we want to be rendered on server,
-//   //and will never exec on the client side
+//   //fetch data from api
 
 //   return {
 //     props: {
 //       meetups: DUMMY_MEETUP_LIST,
 //     },
-//     revalidate: 5,
 //   };
 // };
+
+export const getStaticProps = async () => {
+  //any code here we want to be rendered on server,
+  //and will never exec on the client side
+  //fetch data from api
+
+  const client = await MongoClient.connect(
+    process.env.REACT_APP_API_MONGOCLIENT
+  );
+
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+  const meetups = await meetupsCollection.find().toArray();
+
+  client.close();
+
+  return {
+    props: {
+      meetups: meetups.map((meetup) => ({
+        id: meetup._id.toString(),
+        title: meetup.title,
+        image: meetup.image,
+        address: meetup.address,
+      })),
+    },
+    revalidate: 1,
+  };
+};
 
 export default HomePage;
