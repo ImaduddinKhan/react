@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Card from "../ui/card";
+import Card from "../ui/card.js";
 import classes from "./MeetupItem.module.css";
 
 const MeetupItem = (props) => {

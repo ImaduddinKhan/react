@@ -1,4 +1,4 @@
-import MeetupItem from "./MeetUpItem";
+import MeetupItem from "./MeetUpItem.js";
 import classes from "./MeetUpList.module.css";
 
 const MeetUpItem = (props) => {
