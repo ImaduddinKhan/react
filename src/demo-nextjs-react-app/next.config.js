@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
   options: {
-    dist: "build",
+    distDir: "build",
   },
 };
 
