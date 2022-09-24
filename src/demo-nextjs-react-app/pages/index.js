@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import Head from "next/head";
 
 import { Fragment } from "react";
-import MeetupList from "../components/meetups/MeetupList.js";
+import MeetupList from "../components/meetups/MeetupList";
 
 function HomePage(props) {
   return (
